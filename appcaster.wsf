@@ -41,7 +41,7 @@ appcaster.wsf /path:myfeed.xml /overwrite:true /application:FooApp /author:"Bar 
 var Appcast = function(){
 
 var generator = {
-	name: "Appcast Generator",
+	name: "Appcaster",
 	uri: "http://github.com/cbas/appcast",
 	version: "1.0.0",
 
@@ -234,7 +234,7 @@ if (generator.feed.application.length === 0) {
 	WScript.Quit(1);
 }
 if (generator.release.version.length === 0) {
-	WScript.Echo("Error: Release verion is not specified.");
+	WScript.Echo("Error: Release version is not specified.");
 	WScript.Quit(1);
 }
 var feedDom = generator.tools.getFeed(generator.output.path, generator.output.overwrite === "true");
