@@ -22,13 +22,16 @@
 		<named name="changes" helpstring="Summary of the update" type="string" required="false"/>
 		<named name="info" helpstring="URL of the release notes" type="string" required="false"/>
 		<named name="mime" helpstring="MIME file type of the update file (default: application/octet-stream)" type="string" required="false"/>
-		<named name="size" helpstring="Update file size in bytes" type="string" required="false"/>
+		<named name="size" helpstring="Update file size in bytes or detected by file path" type="string" required="false"/>
 		<named name="timestamp" helpstring="Time stamp of the update release (RFC 3339)" type="string" required="false"/>
 		<named name="track" helpstring="Update deployment track (default: stable)" type="string" required="false"/>
 		<named name="version" helpstring="Version of the update" type="string" required="true"/>
 		<named name="url" helpstring="Download link to the update file" type="string" required="false"/>
 
 		<example>
+Note:
+The "size" argument may be a number specifying the file size in bytes, or a string specifying a local file path. If the local file exists, its file size will be used.
+
 Basic Example:
 appcaster.wsf /application:FooApp /version:1.0.1
 
@@ -107,6 +110,11 @@ var generator = {
 			checkAndApply(generator.release, ["arguments", "changes", "info", "mime", "publication", "size", "track", "version", "url"]);
 			if (generator.release.timestamp.length === 0)
 				generator.release.timestamp = generator.tools.timestamp();
+			if (generator.release.size.match(/[^\d]/)) {
+				var fso = new ActiveXObject("Scripting.FileSystemObject");
+				if (fso.FileExists(generator.release.size))
+					generator.release.size = fso.GetFile(generator.release.size).Size;
+			}
 		},
 
 		getFeed: function (path, overwrite) {
