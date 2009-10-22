@@ -1,0 +1,45 @@
+h1. Appcaster
+
+??Generate or append an Atom feed with software update announcements.??
+
+h2. Usage
+
+appcaster.wsf [/source:value] [/path:value] [/overwrite:value] [/maxage:value] [/maxcount:value] /application:value [/author:value] [/description:value] [/history:value] [/location:value] [/arguments:value] [/changes:value] [/info:value] [/mime:value] [/size:value] [/timestamp:value] [/track:value] /version:value [/url:value]
+
+h2. Options
+
+|source|Location of the input XML feed|
+|path|Location of the output XML feed (default: appcaster.xml)|
+|overwrite|Erase the existing appcast (default: false)|
+|maxage|Prune feed entries older than this many days (default: infinite)|
+|maxcount|Maximum number of entries to keep in the feed (default: infinite)|
+|application|Name of the software|
+|author|Name of the publisher|
+|description|Information about the appcast|
+|history|URL of the revision history|
+|location|URL of the appcast|
+|arguments|Command line arguments for the update|
+|changes|Summary of the update|
+|info|URL of the release notes|
+|mime|MIME file type of the update file (default: application/octet-stream)|
+|size|Update file size in bytes or detected by file path|
+|timestamp|Time stamp of the update release (RFC 3339)|
+|track|Update deployment track (default: stable)|
+|version|Version of the update|
+|url|Download link to the update file|
+
+h2. Notes
+
+"size" may be a number specifying the file size in bytes, or a string specifying a local file path. If the local file exists, its file size is used.
+
+"source" may be a local file path or an HTTP/HTTPS URL.
+
+"maxage" and "maxcount" affect only appcast entries in the current release track. Appcast entries in other tracks and non-appcast entries in the XML feed are not removed.
+
+h2. Basic Example
+
+appcaster.wsf /application:FooApp /version:1.0.1
+
+h2. Full Example
+
+appcaster.wsf /source:http://example.com/myfeed.xml /path:myfeed.xml /overwrite:true /maxage:30 /maxcount:100 /application:FooApp /author:"Bar Inc." /description:"Latest updates feed" /location:http://example.com/fooapp.html /history:http://example.com/versions.html /arguments:--x64 /changes:"Better foos\nFixed bars" /info:http://example.com/v100.html /mime:application/x-msi /timestamp:2003-12-13T18:30:02.25+01:00 /size:1369088 /track:beta /version:1.0.1 /url:http://example.com/foo.msi
